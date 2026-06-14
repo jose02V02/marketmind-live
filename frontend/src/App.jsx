@@ -13,8 +13,7 @@ export default function App() {
   const [category, setCategory] = useState('ultime')
   const [search, setSearch] = useState('')
 
-  const { articles, breaking, loading, refreshing, error, meta, countdown, refresh, refetch } =
-    useNews({ category, search })
+  const { articles, breaking, loading, refreshing, error, meta, countdown, refresh, refetch } = useNews({ category, search })
   const categories = useCategories()
 
   const handleCategory = useCallback((cat) => {
@@ -26,6 +25,7 @@ export default function App() {
 
   return (
     <div className="app">
+      {/* ── Header ── */}
       <header className="header">
         <div className="header-inner">
           <div className="logo">
@@ -39,13 +39,13 @@ export default function App() {
 
           <div className="header-right">
             {lastUpdate && (
-              <span className="last-update">Aggiornato alle {lastUpdate}</span>
+              <span className="last-update">Aggiornato {lastUpdate}</span>
             )}
             <button
               className={`btn-refresh${refreshing ? ' loading' : ''}`}
               onClick={refresh}
               disabled={refreshing}
-              title="Forza aggiornamento"
+              title="Aggiorna notizie"
             >
               <span className="icon">↻</span>
               {refreshing ? 'Aggiornando…' : `${countdown}s`}
@@ -54,14 +54,21 @@ export default function App() {
           </div>
         </div>
 
+        {/* Countdown bar */}
         <div className="countdown-bar">
-          <div className="countdown-fill" key={`${category}-${meta.cachedAt}`} />
+          <div
+            className="countdown-fill"
+            key={`${category}-${meta.cachedAt}`}
+          />
         </div>
       </header>
 
+      {/* ── Breaking News ── */}
       {breaking.length > 0 && <BreakingBanner items={breaking} />}
 
+      {/* ── Main ── */}
       <main className="main-content">
+        {/* Toolbar */}
         <div className="toolbar">
           <div className="toolbar-row">
             <CategoryFilter
@@ -75,13 +82,12 @@ export default function App() {
           </div>
         </div>
 
+        {/* News Section */}
         <section className="news-section">
           {!loading && !error && (
             <div className="section-header">
               <h1 className="section-title">
-                {search
-                  ? `Risultati per "${search}"`
-                  : (categories.find(c => c.id === category)?.label ?? 'Notizie')}
+                {search ? `Risultati per "${search}"` : categories.find(c => c.id === category)?.label || 'Notizie'}
               </h1>
               <span className="count-badge">
                 {meta.total > 0 ? `${meta.total} articoli` : ''}
@@ -102,7 +108,7 @@ export default function App() {
               <div className="empty-msg">
                 {search
                   ? 'Prova con parole chiave diverse.'
-                  : 'Nessuna notizia disponibile al momento. Riprova tra poco.'}
+                  : 'Nessuna notizia disponibile al momento.'}
               </div>
             </div>
           )}
@@ -121,10 +127,11 @@ export default function App() {
         </section>
       </main>
 
+      {/* ── Footer ── */}
       <footer className="footer">
         <p>
-          UltimaOra Live · Aggiornamento automatico ogni 60 secondi.
-          Rispettiamo il copyright: mostriamo solo titoli, estratti e link alle testate originali.
+          UltimaOra Live · Le notizie vengono aggiornate ogni 60 secondi dalle fonti originali.
+          Rispettiamo il copyright: mostriamo solo titoli, estratti e link alle testate.
         </p>
       </footer>
     </div>

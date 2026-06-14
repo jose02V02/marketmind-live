@@ -1,0 +1,16 @@
+{
+  "name": "UltimaOra Live",
+  "short_name": "UltimaOra",
+  "description": "Aggregatore di notizie live in tempo reale",
+  "theme_color": "#080810",
+  "background_color": "#080810",
+  "display": "standalone",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
